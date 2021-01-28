@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutterd/screens/cart_screens.dart';
+import 'package:flutterd/state/cart_state.dart';
 import 'package:flutterd/state/product_state.dart';
+import 'package:flutterd/widgets/add_drower.dart';
 import 'package:flutterd/widgets/singleProduct.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +20,8 @@ class _HomeScreensState extends State<HomeScreens> {
   @override
   void didChangeDependencies() async {
     if (_init) {
+      Provider.of<CartState>(context).getCartDatas();
+      Provider.of<CartState>(context).getoldOrders();
       _isLoding = await Provider.of<ProductState>(context).getProducts();
       setState(() {});
     }
@@ -40,7 +45,16 @@ class _HomeScreensState extends State<HomeScreens> {
       return Scaffold(
         appBar: AppBar(
           title: Text("Welcome to Shop"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreens.routeName);
+              },
+              icon: Icon(Icons.shopping_cart),
+            ),
+          ],
         ),
+        drawer: AppDrower(),
         body: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 3 / 2,

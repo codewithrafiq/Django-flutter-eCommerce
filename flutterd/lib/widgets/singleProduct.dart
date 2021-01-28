@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterd/screens/product_details_screens.dart';
+import 'package:flutterd/state/product_state.dart';
+import 'package:provider/provider.dart';
 
 class SingleProduct extends StatelessWidget {
   final int id;
@@ -33,7 +35,9 @@ class SingleProduct extends StatelessWidget {
         backgroundColor: Colors.black54,
         title: Text(title),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Provider.of<ProductState>(context, listen: false).favoritButton(id);
+          },
           icon: Icon(
             favorit ? Icons.favorite : Icons.favorite_border,
             color: Colors.red,
